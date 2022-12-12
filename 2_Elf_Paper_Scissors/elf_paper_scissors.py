@@ -1,6 +1,6 @@
 import os
 
-f = open('Elf_Paper_Scissors\\input.txt', 'r')
+f = open('2_Elf_Paper_Scissors\\input.txt', 'r')
 
 tally = 0
 options = ' XYZ'

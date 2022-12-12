@@ -1,6 +1,6 @@
 import os
 
-f = open('Elf_Calories\\input.txt', 'r')
+f = open('1_Elf_Calories\\input.txt', 'r')
 
 cals = 0
 top_cals = [0, 0, 0]

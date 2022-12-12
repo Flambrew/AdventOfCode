@@ -1,6 +1,6 @@
 import os
 
-f = open('Rucksack_Reorganization\\input.txt', 'r')
+f = open('3_Rucksack_Reorganization\\input.txt', 'r')
 
 ls = ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 

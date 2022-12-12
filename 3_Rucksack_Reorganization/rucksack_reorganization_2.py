@@ -20,10 +20,10 @@ def check_match():
 
 
 for s in f:
+    group += [s[0:len(s)-1]]
     if len(group) == group_size:
         tally += check_match()
         group = []
-    group += [s[0:len(s)-1]]
 
 print(tally)
 

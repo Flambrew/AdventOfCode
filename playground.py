@@ -1,6 +1,7 @@
-'''
-group = ['adgjm', 'acegikmo', 'abcdefghijklm']
-for s in max(group):
-    if [s in a for a in group]:
-        print
-'''
+ls = ['a', 'b', 'c', 'd', 'e']
+
+print(ls)
+
+dt = dict(ls, ls)
+
+print(dt)

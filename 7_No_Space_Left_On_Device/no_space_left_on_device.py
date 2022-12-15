@@ -4,7 +4,7 @@ import time
 
 ####### COMMAND TO DICTIONARY #######
 
-class file_dictionary:
+class cmd_to_json:
 
     def __init__(self, file):
         self.f = file
@@ -57,7 +57,7 @@ class file_dictionary:
                 out += '\n' + (tabs * '   ') + s
             else:
                 out += s
-        return out + '\n'
+        return (out + '\n').replace("'",'"')
 
 
 ####### FOLDER SIZE #######
@@ -77,9 +77,9 @@ def folder_size(directionary, sub):
 ####### MAIN LOGIC #######
 
 file = open('7_No_Space_Left_On_Device\\input.txt', 'r')
-log = open('7_No_Space_Left_On_Device\\log.txt', 'w')
+log = open('7_No_Space_Left_On_Device\\log.json', 'w')
 
-directory = file_dictionary(file)
+directory = cmd_to_json(file)
 directionary = directory.get_file_structure()
 log.write(directory.__str__())
 

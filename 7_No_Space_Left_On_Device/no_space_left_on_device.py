@@ -1,8 +1,8 @@
 import os
 import time
 
-####### COMMAND TO DICTIONARY #######
 
+####### COMMAND TO DICTIONARY #######
 
 class file_dictionary:
 
@@ -10,9 +10,6 @@ class file_dictionary:
         self.f = file
         self.file_structure = {}
         self.current_path = []
-        self.get_file_dictionary()
-
-    def get_file_dictionary(self):
         for s in self.f:
             if s[0] == '$':
                 self.command(self.current_path, s[:-1])
@@ -43,9 +40,7 @@ class file_dictionary:
         return self.file_structure
 
     def __str__(self):
-        tabs = 0
-        passing = False
-        out = ''
+        tabs, passing, out = 0, False, ''
         for i, s in enumerate(str(self.file_structure)):
             if passing:
                 passing = False
@@ -62,18 +57,29 @@ class file_dictionary:
                 out += s
         return out
 
-####### FOLDER SIZE MATH #######
+
+####### FOLDER SIZE #######
+
+def file_sizes(directionary):
+    size = 0
+    for folder in directionary:
+        print(folder)
+
+    return size
+
 
 
 ####### MAIN LOGIC #######
 
-
 file = open('7_No_Space_Left_On_Device\\input.txt', 'r')
 log = open('7_No_Space_Left_On_Device\\log.txt', 'w')
 
-file_structure = file_dictionary(file)
+directory = file_dictionary(file)
 
-log.write(file_structure.__str__())
+directionary = directory.get_file_structure()
 
+log.write(directory.__str__())
+
+print(file_sizes(directionary))
 
 file.close()

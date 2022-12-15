@@ -2,8 +2,6 @@ import os
 import time
 
 
-####### COMMAND TO DICTIONARY #######
-
 class cmd_to_json:
 
     def __init__(self, file):
@@ -57,34 +55,33 @@ class cmd_to_json:
                 out += '\n' + (tabs * '   ') + s
             else:
                 out += s
-        return (out + '\n').replace("'",'"')
+        return (out + '\n').replace("'", '"')
 
 
-####### FOLDER SIZE #######
+class size_of_folder:
 
-def folder_size(directionary, sub):
-    size = 0
-    if type(directionary) == int:
-        return directionary
-    for element in directionary:
-        size += folder_size(directionary[element], sub)
-    if size <= 100000:
-        sub += size
-    return size
+    def __init__(self, dictionary):
+        self.sub_100k = 0
+        self.total = self.folder_size(dictionary)
 
+    def folder_size(self, dictionary):
+        size = 0
+        if type(dictionary) == int:
+            return dictionary
+        for element in dictionary:
+            size += self.folder_size(dictionary[element])
+        if size <= 100000:
+            self.sub_100k += size
+        return size
 
-
-####### MAIN LOGIC #######
 
 file = open('7_No_Space_Left_On_Device\\input.txt', 'r')
-log = open('7_No_Space_Left_On_Device\\log.json', 'w')
-
-directory = cmd_to_json(file)
-directionary = directory.get_file_structure()
-log.write(directory.__str__())
-
-sub = 0
-print(folder_size(directionary, sub))
-
-
+json_folder = cmd_to_json(file)
 file.close()
+
+folder_size = size_of_folder(json_folder.get_file_structure())
+print(folder_size.sub_100k)
+
+log = open('7_No_Space_Left_On_Device\\log.json', 'w')
+log.write(json_folder.__str__())
+log.close()

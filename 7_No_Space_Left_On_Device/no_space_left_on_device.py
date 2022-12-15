@@ -21,7 +21,7 @@ class file_dictionary:
             if s[5:7] == '..':
                 current_path.pop()
             else:
-                self.file_structure[s[5:]] = {}
+                self.current_folder()[s[5:]] = {}
                 current_path += [str(s[5:])]
 
     def current_folder(self):
@@ -44,6 +44,8 @@ class file_dictionary:
         for i, s in enumerate(str(self.file_structure)):
             if passing:
                 passing = False
+            elif s == '\n':
+                pass
             elif s == ',':
                 passing = True
                 out += s + '\n' + (tabs * '   ')
@@ -55,16 +57,19 @@ class file_dictionary:
                 out += '\n' + (tabs * '   ') + s
             else:
                 out += s
-        return out
+        return out + '\n'
 
 
 ####### FOLDER SIZE #######
 
-def file_sizes(directionary):
+def folder_size(directionary, sub):
     size = 0
-    for folder in directionary:
-        print(folder)
-
+    if type(directionary) == int:
+        return directionary
+    for element in directionary:
+        size += folder_size(directionary[element], sub)
+    if size <= 100000:
+        sub += size
     return size
 
 
@@ -75,11 +80,11 @@ file = open('7_No_Space_Left_On_Device\\input.txt', 'r')
 log = open('7_No_Space_Left_On_Device\\log.txt', 'w')
 
 directory = file_dictionary(file)
-
 directionary = directory.get_file_structure()
-
 log.write(directory.__str__())
 
-print(file_sizes(directionary))
+sub = 0
+print(folder_size(directionary, sub))
+
 
 file.close()

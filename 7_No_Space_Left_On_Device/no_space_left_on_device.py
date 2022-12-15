@@ -1,5 +1,4 @@
 import os
-import time
 
 
 class cmd_to_json:
@@ -39,20 +38,18 @@ class cmd_to_json:
 
     def __str__(self):
         tabs, passing, out = 0, False, ''
-        for i, s in enumerate(str(self.file_structure)):
+        for i, s in enumerate(str(self.file_structure).replace('\n', '')):
             if passing:
                 passing = False
-            elif s == '\n':
-                pass
             elif s == ',':
                 passing = True
-                out += s + '\n' + (tabs * '   ')
+                out += s + '\n' + (tabs * '    ')
             elif s == '{':
                 tabs += 1
-                out += s + '\n' + (tabs * '   ')
+                out += s + '\n' + (tabs * '    ')
             elif s == '}':
                 tabs -= 1
-                out += '\n' + (tabs * '   ') + s
+                out += '\n' + (tabs * '    ') + s
             else:
                 out += s
         return (out + '\n').replace("'", '"')
@@ -60,9 +57,15 @@ class cmd_to_json:
 
 class size_of_folder:
 
-    def __init__(self, dictionary):
-        self.sub_100k = 0
+    def __init__(self, dictionary, capacity, program_size):
+        self.capacity = capacity
+        self.program_size = program_size
+
+        self.sum_sub_100k = 0
+        self.super_100k = capacity
+
         self.total = self.folder_size(dictionary)
+        self.get_super_100k(dictionary)
 
     def folder_size(self, dictionary):
         size = 0
@@ -70,8 +73,20 @@ class size_of_folder:
             return dictionary
         for element in dictionary:
             size += self.folder_size(dictionary[element])
-        if size <= 100000:
-            self.sub_100k += size
+        if size <= 100_000:
+            self.sum_sub_100k += size
+        return size
+
+    def get_super_100k(self, dictionary):
+        size = 0
+        if type(dictionary) == int:
+            return dictionary
+        for element in dictionary:
+            size += self.get_super_100k(dictionary[element])
+        if size <= 100_000:
+            self.sum_sub_100k += size
+        if size >= self.total + self.program_size - self.capacity and size < self.super_100k:
+            self.super_100k = size
         return size
 
 
@@ -79,9 +94,11 @@ file = open('7_No_Space_Left_On_Device\\input.txt', 'r')
 json_folder = cmd_to_json(file)
 file.close()
 
-folder_size = size_of_folder(json_folder.get_file_structure())
-print(folder_size.sub_100k)
+folder = json_folder.get_file_structure()
+folder_size = size_of_folder(folder, 70_000_000, 30_000_000)
 
-log = open('7_No_Space_Left_On_Device\\log.json', 'w')
+print(f'{folder_size.total} : {folder_size.sum_sub_100k} : {folder_size.super_100k}')
+
+log = open('7_No_Space_Left_On_Device\\root_directory.json', 'w')
 log.write(json_folder.__str__())
 log.close()

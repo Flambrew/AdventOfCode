@@ -1,6 +1,8 @@
 import os
+import time
 
 ####### COMMAND TO DICTIONARY #######
+
 
 class file_dictionary:
 
@@ -39,11 +41,26 @@ class file_dictionary:
 
     def get_file_structure(self):
         return self.file_structure
-    
-    def __str__(self):
 
-        
-        pass
+    def __str__(self):
+        tabs = 0
+        passing = False
+        out = ''
+        for i, s in enumerate(str(self.file_structure)):
+            if passing:
+                passing = False
+            elif s == ',':
+                passing = True
+                out += s + '\n' + (tabs * '   ')
+            elif s == '{':
+                tabs += 1
+                out += s + '\n' + (tabs * '   ')
+            elif s == '}':
+                tabs -= 1
+                out += '\n' + (tabs * '   ') + s
+            else:
+                out += s
+        return out
 
 ####### FOLDER SIZE MATH #######
 
@@ -51,13 +68,12 @@ class file_dictionary:
 ####### MAIN LOGIC #######
 
 
-
-
 file = open('7_No_Space_Left_On_Device\\input.txt', 'r')
+log = open('7_No_Space_Left_On_Device\\log.txt', 'w')
 
-print(file_dictionary(file).get_file_structure())
+file_structure = file_dictionary(file)
 
-
+log.write(file_structure.__str__())
 
 
 file.close()

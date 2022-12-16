@@ -91,9 +91,10 @@ class size_of_folder:
 
 
 file = open('7_No_Space_Left_On_Device\\input.txt', 'r')
-folder_size = size_of_folder(cmd_to_json(file).get_file_structure(), 70_000_000, 30_000_000)
+json_folder = cmd_to_json(file)
 file.close()
 
+folder_size = size_of_folder(json_folder.get_file_structure(), 70_000_000, 30_000_000)
 print(f'{folder_size.total} : {folder_size.sum_sub_100k} : {folder_size.super_100k}')
 
 log = open('7_No_Space_Left_On_Device\\root_directory.json', 'w')
